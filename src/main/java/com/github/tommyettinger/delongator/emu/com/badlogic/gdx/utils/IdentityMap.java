@@ -57,7 +57,7 @@ public class IdentityMap<K, V> extends ObjectMap<K, V> {
 	}
 
 	protected int place (K item) {
-		return (int)(System.identityHashCode(item) * 0x9E3779B97F4A7C15L >>> shift);
+		return (System.identityHashCode(item) & mask);
 	}
 
 	int locateKey (K key) {
