@@ -16,12 +16,83 @@ There is!
 
 Finally, there's a performant, portable number dirty hack!
 
+# Why
+
+This is an experiment to see if reducing the amount of math
+involving `long` values in libGDX map and set types helps
+with performance on GWT. At least some applications have seen
+rather severe performance degradation on GWT 2.8.0 (old) when
+using bitwise operations on `long` operands;
+[see this issue](https://github.com/gwtproject/gwt/issues/9398).
+These degradations appear to be acceptable to the GWT team, so
+if they aren't acceptable to GWT users, it becomes the burden
+of those users and the middleware developers they rely on.
+
+Several classes in libGDX, as they currently stand, rely on
+`long` math to place keys/items into slots in hash tables, for
+maps and sets. It isn't a lot of `long` math; the `place()`
+method performs one multiplication between the `hashCode()` of
+an `Object` key (or just a normal `int` key) and a large `long`
+constant, then does an unsigned right shift by a variable
+amount to use only some amount of the uppermost bits. On all
+other platforms, these operations are extremely fast.
+
+...
+
+GWT is not like all other platforms.
+
+In browser JavaScript, `long` does not exist in any way that
+GWT can use directly. Instead, GWT has to emulate at least some
+`long` values with objects that hold three JS `Number`s, though
+some (smaller) values can use just one `Number`. The performance
+of math on `long` values varies (a lot) between browsers, but is
+always significantly worse than math on `int`.
+
+The libGDX maps and sets use `long` math because it behaves the
+same (and correctly) on all platforms, where `int` math on GWT
+has its own quirks. Namely, GWT doesn't have an actual `int`,
+since it uses a JS `Number` as the internal representation of
+an `int`. That means multiplying a large `int` by another large
+`int` on desktop or Android will overflow (which is the
+documented, valid behavior of the JVM), but on GWT it will just
+become a much larger number, probably larger than
+`Integer.MAX_VALUE`, and sometimes so large that the lower 8 or
+more bits have their values lost to floating-point imprecision.
+Yes, `Number` is a double-precision floating-point number, or
+a `double` in Java. Lost precision is bad, but there's a way
+around it on even fairly-old browser versions: `Math.imul()`.
+This method performs multiplication of two `Number` values as
+if they were 32-bit `int` values, overflowing as expected. It
+is available in the JS `Math` class, which can be accessed by
+GWT via JSNI. The code is simple, and could be added to libGDX
+anywhere it can have JSNI code:
+
+```java
+	public static native int imul(int left, int right)/*-{
+	    return Math.imul(left, right);
+	}-*/;
+```
+
+This project has that method in `Collections` so the other
+emulated types can use it. It also has `Math.clz32()` available
+from the JS `Math` class. Having `imul` means we can use `int`
+math on the `hashCode()` to mix it, which should (*should*) be
+at least somewhat faster.
+
 # Get
 
 Depends on libGDX 1.12.1 ! Rips it apart with tooth and claw!
-This should be available by at least JitPack soon! Because this
-is for GWT, you will need a `:sources` dependency! If this doesn't
-make any sense to you, you probably don't need this library!
+This should be available by at least JitPack! Because this
+is for GWT, you will need a `:sources` dependency!
+
+```groovy
+// In the core module; I don't know if this line is needed.
+implementation 'com.github.tommyettinger:delongator:b71dc882a0'
+// In the html module.
+implementation 'com.github.tommyettinger:delongator:b71dc882a0:sources'
+```
+
+If this doesn't make sense to you, you probably don't need this library!
 
 # License
 
