@@ -1,32 +1,31 @@
-# Library Template using libGDX and Gradle 8.x
+# delongator
 
-Change this to fit your library!
+Is your math using too much long all the time?
 
-You'll want to edit gradle.properties to match your library's name, description, author, license, and so on.
-You probably also want to edit build.gradle to match the projectName and group to what you want to use.
+Is your GWT always plodding around, driving you crazy?!
 
-You should "Find in Files" and search for any places that use the word "template" in order to find anything
-you will want to replace. The search should be case-insensitive.
+Is long math tearing up your performances?
 
-This includes some extra configuration so that you can deploy more easily to [JitPack](https://jitpack.io). If you're
-testing a specific commit and don't want to push a release to GitHub or Maven Central just to test (especially
-if testing by seeing if a user can build with your library), then JitPack is a great option. It can also be an
-excellent way of making GitHub releases available via Maven or Gradle dependencies. The `jitpack.yml` file this
-includes defaults to Java 17; you can potentially raise this as high as 21, though that might cause problems
-with Kotlin or libraries like Kryo, or as low as 11 (the minimum for the publishing plugin this uses).
+Think there's no answer?
 
-Regardless of which JDK version JitPack uses to build, the default sourceCompatibility, targetCompatibility, and
-release are set to JDK 7, which limits compatibility to a pretty small subset of Java's features. You can increase
-those to 8, so you can use Java 8's features (lambdas, method references, default methods, etc.) but nothing
-higher (`var`, records, pattern matching, etc.). Using the language level of Java 8 is generally safe, but
-specific APIs added in Java 8 generally aren't available in RoboVM, GWT, or some versions of Android. You can
-go up to compatibility with 11 to get access to `var`, but then you lose all compatibility with RoboVM.
+You're so stupid!
 
-The test code, which goes in `src/test/java/`, uses compatibility with Java 8 by default, so you can use LWJGL3
-in tests out-of-the-box.
+There is!
 
-This currently uses Gradle 8.x; if you want an earlier version that uses 7.x,
-[here you go](https://github.com/tommyettinger/libgdx-library-template/releases/tag/v7.6)!
-Gradle 8.x seems to be fine for library code, and since approximately the middle of 2023, the tooling seems
-to have finally become capable of handling Gradle 8.x and Android/RoboVM projects. Your Android Gradle Plugin
-version should probably be 8.1.2 at this point; it may be able to go up soon as IDEA gets more support.
+**Delongator.**
+
+Finally, there's a performant, portable number dirty hack!
+
+# Get
+
+Depends on libGDX 1.12.1 ! Rips it apart with tooth and claw!
+This should be available by at least JitPack soon! Because this
+is for GWT, you will need a `:sources` dependency! If this doesn't
+make any sense to you, you probably don't need this library!
+
+# License
+
+This project is licensed under [The Apache License 2.0](LICENSE).
+
+Kitten Mittens are only available at Paddy's
+Pub, the home of the original Kitten Mittens.

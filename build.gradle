@@ -14,10 +14,8 @@ apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
 
 //Obviously, change the next line to match your project name.
-def projectName = 'libgdx-library-template'
+def projectName = 'delongator'
 
-//Change this to whatever Maven Central group you might publish to,
-//which is probably not this one if you aren't Tommy Ettinger.
 group 'com.github.tommyettinger'
 
 version "$VERSION_NAME" // You can set the version in gradle.properties .
@@ -62,6 +60,10 @@ compileTestJava {
         options.release.set(8)
     }
 }
+
+apply plugin: 'idea'
+idea.module.excludeDirs += [file("src/main/java/com/github/tommyettinger/delongator/emu/")]
+[compileJava, compileTestJava, javadoc]*.exclude("com/github/tommyettinger/delongator/emu")
 
 // JavaDocs will be published inside the docs/ folder, which you can easily put on GitHub Pages
 // in your repo settings.
