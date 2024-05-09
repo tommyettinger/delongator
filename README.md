@@ -85,17 +85,15 @@ Depends on libGDX 1.12.1 ! Rips it apart with tooth and claw!
 This should be available by at least JitPack! Because this
 is for GWT, you will need a `:sources` dependency!
 
-You must change b71dc882a0 to a more recent commit hash,
+You may want a more recent commit hash,
 typically the most-recent non-SNAPSHOT version
 [on JitPack.io](https://jitpack.io/#tommyettinger/delongator).
-Commit b71dc882a0 will not work! Get a newer one!
 
 
 ```groovy
-// In the core module; I don't know if this line is needed.
-implementation 'com.github.tommyettinger:delongator:b71dc882a0'
+// this doesn't need a dependency in the core module.
 // In the html module.
-implementation 'com.github.tommyettinger:delongator:b71dc882a0:sources'
+implementation 'com.github.tommyettinger:delongator:0.0.1:sources'
 ```
 
 You will also need this GWT inherits line:
