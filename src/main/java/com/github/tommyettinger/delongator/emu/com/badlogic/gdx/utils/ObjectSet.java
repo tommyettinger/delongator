@@ -97,7 +97,7 @@ public class ObjectSet<T> implements Iterable<T> {
 		size = set.size;
 	}
 
-	protected int place (int item) {
+	protected int place (T item) {
 		return Collections.imul(item.hashCode(), 0xB7AD9447) >>> shift;
 	}
 

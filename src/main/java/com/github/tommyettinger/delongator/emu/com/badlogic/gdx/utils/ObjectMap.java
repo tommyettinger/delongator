@@ -104,7 +104,7 @@ public class ObjectMap<K, V> implements Iterable<ObjectMap.Entry<K, V>> {
 		size = map.size;
 	}
 
-	protected int place (int item) {
+	protected int place (K item) {
 		return Collections.imul(item.hashCode(), 0xB7AD9447) >>> shift;
 	}
 
