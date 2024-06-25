@@ -91,7 +91,7 @@ public class LongMap<V> implements Iterable<LongMap.Entry<V>> {
 		int tableSize = tableSize(initialCapacity, loadFactor);
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
-		shift = (0x20)+Collections.countLeadingZeros(mask);
+		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
 
 		keyTable = new long[tableSize];
 		valueTable = (V[])new Object[tableSize];
@@ -330,7 +330,7 @@ public class LongMap<V> implements Iterable<LongMap.Entry<V>> {
 		int oldCapacity = keyTable.length;
 		threshold = (int)(newSize * loadFactor);
 		mask = newSize - 1;
-		shift = (0x20)+Collections.countLeadingZeros(mask);
+		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
 
 		long[] oldKeyTable = keyTable;
 		V[] oldValueTable = valueTable;

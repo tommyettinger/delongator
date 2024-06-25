@@ -92,7 +92,7 @@ public class IntMap<V> implements Iterable<IntMap.Entry<V>> {
 		int tableSize = tableSize(initialCapacity, loadFactor);
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
-		shift = (0x20)+Collections.countLeadingZeros(mask);
+		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
 
 		keyTable = new int[tableSize];
 		valueTable = (V[])new Object[tableSize];
@@ -109,7 +109,7 @@ public class IntMap<V> implements Iterable<IntMap.Entry<V>> {
 	}
 
 	protected int place (int item) {
-		return Collections.imul(item, 0xB7AD9447) >>> shift;
+		return item * 0x00110427 >>> shift;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this
@@ -317,7 +317,7 @@ public class IntMap<V> implements Iterable<IntMap.Entry<V>> {
 		int oldCapacity = keyTable.length;
 		threshold = (int)(newSize * loadFactor);
 		mask = newSize - 1;
-		shift = (0x20)+Collections.countLeadingZeros(mask);
+		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
 
 		int[] oldKeyTable = keyTable;
 		V[] oldValueTable = valueTable;
