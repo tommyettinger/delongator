@@ -64,13 +64,15 @@ by multiplying any 32-bit numbers by no more than 0x1FFFFF
 (about 2 million) and doing any bitwise math on the result to
 force JS to keep it in the 32-bit range. To ensure the input is
 actually a 32-bit int and not some double-precision monster, a
-do-nothing bitwise math operation is all that is needed. 
+do-nothing bitwise math operation is all that is needed. Here, my
+preferred way to do nothing to a number `n` is `(n | 0)` .
 
 # Get
 
 Depends on libGDX 1.12.1 ! Rips it apart with tooth and claw!
 This should be available by at least JitPack! Because this
-is for GWT, you will need a `:sources` dependency!
+is for GWT, you will need a `:sources` dependency, but that is
+all you need! You don't need to add anything to core.
 
 You may want a more recent commit hash,
 typically the most-recent non-SNAPSHOT version
