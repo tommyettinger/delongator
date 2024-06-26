@@ -77,15 +77,15 @@ all you need! You don't need to add anything to core.
 You may want a more recent commit hash,
 typically the most-recent non-SNAPSHOT version
 [on JitPack.io](https://jitpack.io/#tommyettinger/delongator).
-
+An example commit hash is `86360bffd4` .
 
 ```groovy
 // this doesn't need a dependency in the core module.
-// In the html module.
-implementation 'com.github.tommyettinger:delongator:0.0.1:sources'
+// In the html module:
+implementation 'com.github.tommyettinger:delongator:0.0.2:sources'
 ```
 
-You will also need this GWT inherits line:
+You will also need this GWT inherits line in your `GdxDefinition.gwt.xml` file:
 
 ```xml
 <inherits name="com.github.tommyettinger.delongator" />
