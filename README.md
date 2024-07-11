@@ -59,13 +59,25 @@ become a much larger number, probably larger than
 `Integer.MAX_VALUE`, and sometimes so large that the lower 8 or
 more bits have their values lost to floating-point imprecision.
 Yes, `Number` is a double-precision floating-point number, or
-a `double` in Java. Lost precision is bad, but it can be avoided
-by multiplying any 32-bit numbers by no more than 0x1FFFFF
-(about 2 million) and doing any bitwise math on the result to
-force JS to keep it in the 32-bit range. To ensure the input is
-actually a 32-bit int and not some double-precision monster, a
-do-nothing bitwise math operation is all that is needed. Here, my
-preferred way to do nothing to a number `n` is `(n | 0)` .
+a `double` in Java. Lost precision is bad, but there's a way
+around it on even fairly-old browser versions: `Math.imul()`.
+This method performs multiplication of two `Number` values as
+if they were 32-bit `int` values, overflowing as expected. It
+is available in the JS `Math` class, which can be accessed by
+GWT via JSNI. The code is simple, and could be added to libGDX
+anywhere it can have JSNI code:
+
+```java
+	public static native int imul(int left, int right)/*-{
+	    return Math.imul(left, right);
+	}-*/;
+```
+
+This project has that method in `Collections` so the other
+emulated types can use it. It also has `Math.clz32()` available
+from the JS `Math` class. Having `imul` means we can use `int`
+math on the `hashCode()` to mix it, which should (*should*) be
+at least somewhat faster.
 
 # Get
 
@@ -82,7 +94,7 @@ An example commit hash is `86360bffd4` .
 ```groovy
 // this doesn't need a dependency in the core module.
 // In the html module:
-implementation 'com.github.tommyettinger:delongator:0.0.2:sources'
+implementation 'com.github.tommyettinger:delongator:0.0.3:sources'
 ```
 
 You will also need this GWT inherits line in your `GdxDefinition.gwt.xml` file:
