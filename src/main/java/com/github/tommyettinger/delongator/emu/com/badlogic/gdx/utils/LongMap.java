@@ -91,7 +91,7 @@ public class LongMap<V> implements Iterable<LongMap.Entry<V>> {
 		int tableSize = tableSize(initialCapacity, loadFactor);
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
-		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
+		shift = (0x20)+Collections.countLeadingZeros(mask);
 
 		keyTable = new long[tableSize];
 		valueTable = (V[])new Object[tableSize];
@@ -108,7 +108,7 @@ public class LongMap<V> implements Iterable<LongMap.Entry<V>> {
 	}
 
 	protected int place (long item) {
-		return (int)(item ^ item >>> 32) * 0x00110427 >>> shift;
+		return Collections.imul((int)(item ^ item >>> 32), 0x9B89CD59) >>> shift;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this
@@ -316,7 +316,7 @@ public class LongMap<V> implements Iterable<LongMap.Entry<V>> {
 		int oldCapacity = keyTable.length;
 		threshold = (int)(newSize * loadFactor);
 		mask = newSize - 1;
-		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
+		shift = (0x20)+Collections.countLeadingZeros(mask);
 
 		long[] oldKeyTable = keyTable;
 		V[] oldValueTable = valueTable;

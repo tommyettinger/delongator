@@ -85,7 +85,7 @@ public class ObjectSet<T> implements Iterable<T> {
 		int tableSize = tableSize(initialCapacity, loadFactor);
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
-		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
+		shift = (0x20)+Collections.countLeadingZeros(mask);
 
 		keyTable = (T[])new Object[tableSize];
 	}
@@ -98,7 +98,7 @@ public class ObjectSet<T> implements Iterable<T> {
 	}
 
 	protected int place (T item) {
-		return (item.hashCode() | 0) * 0x00110427 >>> shift;
+		return Collections.imul(item.hashCode(), 0x9B89CD59) >>> shift;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this
@@ -252,7 +252,7 @@ public class ObjectSet<T> implements Iterable<T> {
 		int oldCapacity = keyTable.length;
 		threshold = (int)(newSize * loadFactor);
 		mask = newSize - 1;
-		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
+		shift = (0x20)+Collections.countLeadingZeros(mask);
 		T[] oldKeyTable = keyTable;
 
 		keyTable = (T[])(new Object[newSize]);
@@ -339,7 +339,7 @@ public class ObjectSet<T> implements Iterable<T> {
 
 	static int tableSize (int capacity, float loadFactor) {
 		if (capacity < 0) throw new IllegalArgumentException("capacity must be >= 0: " + capacity);
-		int tableSize = 1 << -Integer.numberOfLeadingZeros(Math.max(2, (int)Math.ceil(capacity / loadFactor)) - 1);
+		int tableSize = 1 << -Collections.countLeadingZeros(Math.max(2, (int)Math.ceil(capacity / loadFactor)) - 1);
 		if (tableSize > 1 << 30) throw new IllegalArgumentException("The required capacity is too large: " + capacity);
 		return tableSize;
 	}

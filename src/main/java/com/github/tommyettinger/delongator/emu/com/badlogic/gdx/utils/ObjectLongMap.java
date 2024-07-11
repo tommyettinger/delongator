@@ -88,7 +88,7 @@ public class ObjectLongMap<K> implements Iterable<ObjectLongMap.Entry<K>> {
 		int tableSize = tableSize(initialCapacity, loadFactor);
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
-		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
+		shift = (0x20)+Collections.countLeadingZeros(mask);
 
 		keyTable = (K[])new Object[tableSize];
 		valueTable = new long[tableSize];
@@ -103,7 +103,7 @@ public class ObjectLongMap<K> implements Iterable<ObjectLongMap.Entry<K>> {
 	}
 
 	protected int place (K item) {
-		return (item.hashCode() | 0) * 0x00110427 >>> shift;
+		return Collections.imul(item.hashCode(), 0x9B89CD59) >>> shift;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this
@@ -285,7 +285,7 @@ public class ObjectLongMap<K> implements Iterable<ObjectLongMap.Entry<K>> {
 		int oldCapacity = keyTable.length;
 		threshold = (int)(newSize * loadFactor);
 		mask = newSize - 1;
-		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
+		shift = (0x20)+Collections.countLeadingZeros(mask);
 
 		K[] oldKeyTable = keyTable;
 		long[] oldValueTable = valueTable;

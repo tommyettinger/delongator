@@ -84,7 +84,7 @@ public class IntSet {
 		int tableSize = tableSize(initialCapacity, loadFactor);
 		threshold = (int)(tableSize * loadFactor);
 		mask = tableSize - 1;
-		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
+		shift = (0x20)+Collections.countLeadingZeros(mask);
 
 		keyTable = new int[tableSize];
 	}
@@ -98,7 +98,7 @@ public class IntSet {
 	}
 
 	protected int place (int item) {
-		return item * 0x00110427 >>> shift;
+		return Collections.imul(item, 0x9B89CD59) >>> shift;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this
@@ -257,7 +257,7 @@ public class IntSet {
 		int oldCapacity = keyTable.length;
 		threshold = (int)(newSize * loadFactor);
 		mask = newSize - 1;
-		shift = (0x20)+Integer.numberOfLeadingZeros(mask);
+		shift = (0x20)+Collections.countLeadingZeros(mask);
 
 		int[] oldKeyTable = keyTable;
 

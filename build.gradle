@@ -36,6 +36,15 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+
+mavenPublishing {
+    configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
+}
+
+mavenPlainJavadocJar.archiveBaseName.set("$projectName")
+
 compileJava {
 	// Targeting Java 7 is the lowest version you could need to go at this point.
 	// libGDX itself targets a mix of Java 7 (for most backends) and 8 (for LWJGL3).
@@ -80,7 +89,7 @@ jar {
 
 repositories {
     // You can uncomment mavenLocal() if you need self-built versions, but it can be a problem with GWT or other sources dependencies.
-    //mavenLocal()
+    mavenLocal()
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
     google()
