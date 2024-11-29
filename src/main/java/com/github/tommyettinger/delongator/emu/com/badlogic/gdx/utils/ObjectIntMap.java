@@ -103,7 +103,8 @@ public class ObjectIntMap<K> implements Iterable<ObjectIntMap.Entry<K>> {
 	}
 
 	protected int place (K item) {
-		return Collections.imul(item.hashCode(), 0x9B89CD59) >>> shift;
+		final int h = item.hashCode();
+		return (h ^ (h << 9 | h >>> 23) ^ (h << 21 | h >>> 11)) & mask;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this

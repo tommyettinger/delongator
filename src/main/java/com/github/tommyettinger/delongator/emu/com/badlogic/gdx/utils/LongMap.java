@@ -108,7 +108,7 @@ public class LongMap<V> implements Iterable<LongMap.Entry<V>> {
 	}
 
 	protected int place (long item) {
-		return Collections.imul((int)(item ^ item >>> 32), 0x9B89CD59) >>> shift;
+		return (int)(item ^ (item << 41 | item >>> 23) ^ (item << 21 | item >>> 43)) & mask;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this

@@ -59,25 +59,24 @@ become a much larger number, probably larger than
 `Integer.MAX_VALUE`, and sometimes so large that the lower 8 or
 more bits have their values lost to floating-point imprecision.
 Yes, `Number` is a double-precision floating-point number, or
-a `double` in Java. Lost precision is bad, but there's a way
-around it on even fairly-old browser versions: `Math.imul()`.
-This method performs multiplication of two `Number` values as
-if they were 32-bit `int` values, overflowing as expected. It
-is available in the JS `Math` class, which can be accessed by
-GWT via JSNI. The code is simple, and could be added to libGDX
-anywhere it can have JSNI code:
+a `double` in Java. Lost precision is bad, but it turns out you
+can adequately mix the bits of a `hashCode()` using some bitwise
+math, and that can, at least on desktop, be faster than a
+multiplication and a variable shift. The specific math we use
+here is a XOR-rotate-XOR-rotate sequence, which doesn't really
+matter in its specifics other than if all int hashCode() values
+are given to it once, it will produce all mixed-up results of
+that sequence equally often (exactly once each). Avoiding "holes"
+in the possible results is a major goal of good mixing functions.
 
-```java
-	public static native int imul(int left, int right)/*-{
-	    return Math.imul(left, right);
-	}-*/;
-```
-
-This project has that method in `Collections` so the other
-emulated types can use it. It also has `Math.clz32()` available
-from the JS `Math` class. Having `imul` means we can use `int`
-math on the `hashCode()` to mix it, which should (*should*) be
-at least somewhat faster.
+This project also has some methods in `Collections` so that user
+code can have it. There's `Math.imul()` from the JS `Math` class,
+which multiplies two ints and handles overflow the way Java does,
+rather than by losing precision.
+It also has `Math.clz32()` available from the JS `Math` class.
+These can be called from GWT Java code as `Collections.imul()`,
+`Collections.countLeadingZeros()` (given int or long), and
+`Collections.countTrailingZeros()` (given int or long)
 
 # Get
 

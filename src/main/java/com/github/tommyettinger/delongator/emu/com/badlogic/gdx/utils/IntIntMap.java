@@ -107,7 +107,7 @@ public class IntIntMap implements Iterable<IntIntMap.Entry> {
 	}
 
 	protected int place (int item) {
-		return Collections.imul(item, 0x9B89CD59) >>> shift;
+		return (item ^ (item << 9 | item >>> 23) ^ (item << 21 | item >>> 11)) & mask;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this
