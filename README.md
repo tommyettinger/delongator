@@ -93,7 +93,7 @@ An example commit hash is `86360bffd4` .
 ```groovy
 // this doesn't need a dependency in the core module.
 // In the html module:
-implementation 'com.github.tommyettinger:delongator:0.0.3:sources'
+implementation 'com.github.tommyettinger:delongator:0.0.4:sources'
 ```
 
 You will also need this GWT inherits line in your `GdxDefinition.gwt.xml` file:
@@ -101,6 +101,9 @@ You will also need this GWT inherits line in your `GdxDefinition.gwt.xml` file:
 ```xml
 <inherits name="com.github.tommyettinger.delongator" />
 ```
+
+The order this is placed might matter, since this replaces libGDX sources. You should
+add the above `inherits` line below any `inherits` line for libGDX.
 
 If this doesn't make sense to you, you probably don't need this library!
 
