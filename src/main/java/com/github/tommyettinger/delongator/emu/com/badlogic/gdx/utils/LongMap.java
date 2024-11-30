@@ -108,7 +108,7 @@ public class LongMap<V> implements Iterable<LongMap.Entry<V>> {
 	}
 
 	protected int place (long item) {
-		return (int)(item ^ (item << 41 | item >>> 23) ^ (item << 21 | item >>> 43)) & mask;
+		return (int)(item ^ (item << 11 | item >>> 53) ^ (item << 43 | item >>> 21)) & mask;
 	}
 
 	/** Returns the index of the key if already present, else -(index + 1) for the next empty index. This can be overridden in this
